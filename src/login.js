@@ -1,12 +1,15 @@
 import React from 'react';
+import './logreg.css';
+
 
 const Login = (props) => {
     const { email, setEmail, password, setPassword, handleLogin, handleSignup,  hasAccount, setHasAccount, emailError, passwordError } = props;
+    
 
     return(
         <section className="login">
             <div className="loginContainer">
-                <label>username</label>
+                <label>email</label>
                 <input type="text" autoFocus required value={email} onChange={(e) => setEmail(e.target.value)}/>
                 <p className="errorMsg">{emailError}</p>
                 <label>password</label>
@@ -15,12 +18,12 @@ const Login = (props) => {
                 <div className='btnContainer'>
                     {hasAccount ? (
                         <>
-                        <button onClick={handleLogin}>sign in</button>
+                        <button className='logregbtn' onClick={handleLogin}>sign in</button>
                         <p>Dont have an account? <span onClick={() => setHasAccount(!hasAccount)}>Signup</span></p>
                         </>
                     ):(
                         <>
-                        <button onClick={handleSignup}>sign up</button>
+                        <button className='logregbtn' onClick={handleSignup}>sign up</button>
                         <p>have an account? <span onClick={() => setHasAccount(!hasAccount)}>sign in</span></p>
                         </>
                     )}

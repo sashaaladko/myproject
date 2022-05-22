@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import Title from './comps/Title';
-import UploadForm from './comps/UploadForm';
-import ImageGrid from './comps/ImageGrid';
-import Modal from './comps/Modal';
 import fire from './firebase/config'
 import Login from './login';
-import './App.css'
+import './App.css';
+import Search from './search';
+import { Route, Routes } from 'react-router-dom';
+import Home from './home';
+import About from './about';
+import Folder1 from './folders/folder1';
+import Folder2 from './folders/folder2';
+import Folder3 from './folders/folder3';
 
 function App() {
   const [user, setUser] = useState('');
@@ -15,7 +18,6 @@ function App() {
   const [passwordError, setPasswordError] = useState('');
   const [hasAccount, setHasAccount] = useState(false);
 
-  const [selectedImg, setSelectedImg] = useState(null);
   
   const clearInputs = () => {
     setEmail('');
@@ -64,34 +66,54 @@ function App() {
     fire.auth().signOut();
   };
 
-  const authListener = () => {
-    fire.auth().onAuthStateChanged((user) => {
-      if(user){
-        clearInputs();
-        setUser(user);
-      } else {
-        setUser("");
-      }
-   });
-  };
+
 
 
   useEffect(() => {
+    function authListener() {
+      fire.auth().onAuthStateChanged((user) => {
+        if(user){
+          clearInputs();
+          setUser(user);
+        } else {
+          setUser("");
+        }
+     });
+    };
     authListener();
-  }, [])
+  }, []);
 
 
    
   return (
     <div className="App">
-          <Title/>
+
+     
       {user ? (
         <div>
-        <UploadForm handleLogout={handleLogout} />
-        <ImageGrid setSelectedImg={setSelectedImg} />
-        { selectedImg && (
-          <Modal selectedImg={selectedImg} setSelectedImg={setSelectedImg} />
-        )}
+        <header>
+        <button className='logout' onClick={handleLogout}>log out</button>
+          <ul className='list'>
+            <li><a className="hrefs" href="/">Home page</a></li>
+            <li><a className="hrefs" href="/search">search</a></li>
+            <li><a className="hrefs" href="/about">About</a></li>
+          </ul>
+          <ul className='folders'>
+            <li><a className='folderlist' href="/folder1">folder1</a></li>
+            <li><a className='folderlist' href="/folder2">folder2</a></li>
+            <li><a className='folderlist' href="/folder3">folder3</a></li>
+          </ul>
+
+        </header>
+        <Routes>
+          <Route path='/' element={<Home handleLogout={handleLogout}/>}/>
+          <Route path='/search' element={<Search/>}/>
+          <Route path='/about' element={<About/>}/>
+          <Route path='/folder1' element={<Folder1/>}/>
+          <Route path='/folder2' element={<Folder2/>}/>
+          <Route path='/folder3' element={<Folder3/>}/>
+        </Routes>
+
         </div>
       ) : ( <Login email={email} setEmail={setEmail} password={password} setPassword={setPassword} handleLogin={handleLogin} handleSignup={handleSignup} hasAccount={hasAccount} setHasAccount={setHasAccount} emailError={emailError} passwordError={passwordError}/>)}
   

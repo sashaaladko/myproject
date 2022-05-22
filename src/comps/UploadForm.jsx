@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ProgressBar from './ProgressBar';
 
-const UploadForm = (handleLogout) => {
+const UploadForm = ( ) => {
   const [file, setFile] = useState(null);
   const [error, setError] = useState(null);
 
@@ -19,19 +19,24 @@ const UploadForm = (handleLogout) => {
     }
   };
 
+  
+
   return (
-    <form className='imgform'>
-      <button onClick={handleLogout}>log out</button>
-      <label className='imglabel'>
-        <input type="file" onChange={handleChange} />
-        <span>+</span>
-      </label>
-      <div className="output">
-        { error && <div className="error">{ error }</div>}
-        { file && <div>{ file.name }</div> }
-        { file && <ProgressBar file={file} setFile={setFile} /> }
-      </div>
-    </form>
+    <div>
+   
+      <form className='imgform'>
+       
+        <label className='imglabel'>
+          <input type="file" onChange={handleChange} />
+          <span>+</span>
+        </label>
+        <div className="output">
+          { error && <div className="error">{ error }</div>}
+          { file && <div>{ file.name }</div> }
+          { file && <ProgressBar file={file} setFile={setFile} /> }
+        </div>
+      </form>
+    </div>
   );
 }
 
